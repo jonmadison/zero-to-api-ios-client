@@ -8,17 +8,17 @@
         <!--Main Table View Controller-->
         <scene sceneID="5UE-2T-RDo">
             <objects>
-                <tableViewController id="zyi-co-U1x" customClass="MainTableViewController" customModule="ZeroToApi" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="pVZ-z7-l9w" customClass="Main">
+                <tableViewController automaticallyAdjustsScrollViewInsets="NO" id="zyi-co-U1x" customClass="MainTableViewController" customModule="ZeroToApi" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" id="pVZ-z7-l9w" customClass="Main">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseIdentifier" id="fbr-fl-lvu">
-                                <rect key="frame" x="0.0" y="22" width="600" height="44"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseIdentifier" rowHeight="60" id="fbr-fl-lvu">
+                                <rect key="frame" x="0.0" y="22" width="600" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fbr-fl-lvu" id="1G8-mr-d7r">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="59.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                                 <connections>
@@ -34,7 +34,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LeA-Ey-RSf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="507" y="400"/>
+            <point key="canvasLocation" x="504" y="423"/>
         </scene>
         <!--Plant Detail View Controller-->
         <scene sceneID="g1F-zb-zwO">
@@ -51,7 +51,8 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="878-EY-47m">
                                 <rect key="frame" x="128" y="458" width="344" height="64"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="344" id="uQ5-VC-dRW"/>
+                                    <constraint firstAttribute="width" constant="344" id="ZZC-ZM-B88"/>
+                                    <constraint firstAttribute="height" constant="64" id="jif-my-ZCU"/>
                                 </constraints>
                                 <state key="normal" title="Done">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -60,18 +61,65 @@
                                     <action selector="doneButtonPressed:" destination="wdT-y2-ZIe" eventType="touchUpInside" id="57a-Xa-eze"/>
                                 </connections>
                             </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="Ysm-U2-gHa">
+                                <rect key="frame" x="150" y="28" width="300" height="100"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="flowerthing_logo" translatesAutoresizingMaskIntoConstraints="NO" id="Igi-OM-rcN">
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="100" id="nhH-k0-uur"/>
+                                            <constraint firstAttribute="height" constant="100" id="ypj-eq-BiG"/>
+                                        </constraints>
+                                    </imageView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="MWi-2L-jXJ">
+                                        <rect key="frame" x="115" y="0.0" width="185" height="53"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RyC-pD-gPd">
+                                                <rect key="frame" x="0.0" y="0.0" width="185" height="21"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="185" id="reA-RI-sza"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Scientific Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t7Q-2B-QNm">
+                                                <rect key="frame" x="0.0" y="21" width="185" height="15"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Duration" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XPC-Uh-www">
+                                                <rect key="frame" x="0.0" y="35" width="185" height="18"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="878-EY-47m" firstAttribute="top" secondItem="qWQ-xV-s9R" secondAttribute="bottom" constant="438" id="Z6w-ii-1eo"/>
-                            <constraint firstItem="878-EY-47m" firstAttribute="centerX" secondItem="tEZ-mh-Ro9" secondAttribute="centerX" id="lYf-4J-CdQ"/>
-                            <constraint firstItem="xmy-km-eZm" firstAttribute="top" secondItem="878-EY-47m" secondAttribute="bottom" constant="78" id="pRN-l1-lSC"/>
+                            <constraint firstItem="878-EY-47m" firstAttribute="centerX" secondItem="tEZ-mh-Ro9" secondAttribute="centerX" id="EJN-p0-DAa"/>
+                            <constraint firstItem="xmy-km-eZm" firstAttribute="top" secondItem="878-EY-47m" secondAttribute="bottom" constant="78" id="TEt-nW-TJT"/>
+                            <constraint firstItem="Ysm-U2-gHa" firstAttribute="centerX" secondItem="878-EY-47m" secondAttribute="centerX" id="h6s-mp-Yau"/>
+                            <constraint firstItem="Ysm-U2-gHa" firstAttribute="top" secondItem="qWQ-xV-s9R" secondAttribute="bottom" constant="8" id="sk8-eP-I80"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="labelDuration" destination="XPC-Uh-www" id="IG7-0d-69R"/>
+                        <outlet property="labelName" destination="RyC-pD-gPd" id="BvW-95-qVU"/>
+                        <outlet property="labelScientificName" destination="t7Q-2B-QNm" id="7aO-pU-5Zx"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Gp-iP-7pz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1438" y="400"/>
+            <point key="canvasLocation" x="1432" y="423"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="flowerthing_logo" width="200" height="200"/>
+    </resources>
 </document>

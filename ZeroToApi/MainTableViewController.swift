@@ -17,25 +17,25 @@ class MainTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var postEndpoint: String = "https://ftapi-ex.herokuapp.com/v1/plants"
+        let postEndpoint: String = "https://ftapi-ex.herokuapp.com/v1/plants"
 //        var postEndpoint: String = "http://localhost:3000/v1/plants"
-        var urlRequest = NSURLRequest(URL: NSURL(string: postEndpoint)!)
+        let urlRequest = NSURLRequest(URL: NSURL(string: postEndpoint)!)
         
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue(), completionHandler:{
-            (response:NSURLResponse!, data: NSData!, error: NSError!) -> Void in
-            if let anError = error
+            (response:NSURLResponse?, data: NSData?, err: NSError?) -> Void in
+            if let anError = err
             {
-                println("error calling GET on /plants")
-                println(anError)
+                print("error calling GET on /plants")
+                print(anError)
             } else {
-                
                 var jsonError: NSError?
-                let result = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &jsonError) as! NSDictionary
+                
+                let result = (try! NSJSONSerialization.JSONObjectWithData(data!, options: [])) as! NSDictionary
                 
                 if let aJSONError = jsonError
                 {
-                    println("error parsing /plants")
-                    println(aJSONError)
+                    print("error parsing /plants")
+                    print(aJSONError)
                 }
                 else
                 {
@@ -67,7 +67,7 @@ class MainTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) 
 
         let plant:NSDictionary = plants[indexPath.row] as! NSDictionary
         
