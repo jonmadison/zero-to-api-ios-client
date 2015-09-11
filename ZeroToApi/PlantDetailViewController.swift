@@ -20,34 +20,37 @@ class PlantDetailViewController: UIViewController {
         super.viewDidLoad()
         
 //        let postEndpoint: String = "https://ftapi-ex.herokuapp.com/v1/plants"
-                var postEndpoint: String = "http://localhost:3000/v1/plants"
-        let requestString = "\(postEndpoint)/\(plantId)"
-        let urlRequest = NSURLRequest(URL: NSURL(string: requestString)!)
         
-        NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue()) { (response:NSURLResponse?, data:NSData?, err:NSError? ) -> Void in
-            if let anError = err
-            {
-                print("error calling GET on /plants")
-                print(anError)
-            } else {
-                var jsonError: NSError?
-                
-                let result = (try! NSJSONSerialization.JSONObjectWithData(data!, options: [])) as! NSDictionary
-                
-                if let aJSONError = jsonError
+        let postEndpoint: String = "http://localhost:3000/v1/plants"
+        let requestString = "\(postEndpoint)/\(plantId)"
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+
+        if let url = NSURL(string: requestString) {
+            NSURLSession.sharedSession().dataTaskWithURL(url, completionHandler:{
+                (data:NSData?, response:NSURLResponse?, err:NSError?) -> Void in
+                if let anError = err
                 {
-                    print("error parsing /plants")
-                    print(aJSONError)
+                    print("error calling GET on \(requestString)")
+                    print(anError)
                 }
                 else
                 {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.updateUI(result)
-                    })
+                    do
+                    {
+                        let result = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as! NSDictionary
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.updateUI(result)
+                        })
+                    } catch let aJSONError as NSError {
+                        print("error parsing /plants")
+                        print(aJSONError)
+                    }
                 }
-            }
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                })
+            }).resume()
         }
-        
     }
 
     func updateUI(plant:NSDictionary) {

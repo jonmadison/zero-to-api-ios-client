@@ -9,7 +9,10 @@
 import UIKit
 import Foundation
 
-class MainTableViewController: UITableViewController {
+class MainViewController: UIViewController, UITableViewDataSource,UITableViewDelegate {
+    @IBOutlet weak var tableView: UITableView!
+    
+    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
     
     var selectedPlantId:Int = Int()
     var plants:NSArray = []
@@ -18,37 +21,37 @@ class MainTableViewController: UITableViewController {
         super.viewDidLoad()
         
         let postEndpoint: String = "https://ftapi-ex.herokuapp.com/v1/plants"
-//        var postEndpoint: String = "http://localhost:3000/v1/plants"
-        let urlRequest = NSURLRequest(URL: NSURL(string: postEndpoint)!)
+//      let postEndpoint: String = "http://localhost:3000/v1/plants"
         
-        NSURLConnection.sendAsynchronousRequest(urlRequest, queue: NSOperationQueue(), completionHandler:{
-            (response:NSURLResponse?, data: NSData?, err: NSError?) -> Void in
-            if let anError = err
-            {
-                print("error calling GET on /plants")
-                print(anError)
-            } else {
-                var jsonError: NSError?
-                
-                let result = (try! NSJSONSerialization.JSONObjectWithData(data!, options: [])) as! NSDictionary
-                
-                if let aJSONError = jsonError
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        
+        if let url = NSURL(string:postEndpoint) {
+            NSURLSession.sharedSession().dataTaskWithURL(url, completionHandler:{
+                (data:NSData?, response:NSURLResponse?, err:NSError?) -> Void in
+                if let anError = err
                 {
-                    print("error parsing /plants")
-                    print(aJSONError)
+                    print("error calling GET on /plants")
+                    print(anError)
                 }
                 else
                 {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.plants = result["plants"] as! NSArray
-                        self.tableView.reloadData()
-                    })
+                    do
+                    {
+                        let result = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as! NSDictionary
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.plants = result["plants"] as! NSArray
+                            self.tableView.reloadData()
+                        })
+                    } catch let aJSONError as NSError {
+                        print("error parsing /plants")
+                        print(aJSONError)
+                    }
                 }
-            }
-            
-            
-
-        })
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                })
+            }).resume()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -58,16 +61,16 @@ class MainTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.plants.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) 
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) 
 
         let plant:NSDictionary = plants[indexPath.row] as! NSDictionary
         
@@ -82,7 +85,7 @@ class MainTableViewController: UITableViewController {
         return cell
     }
 
-    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+    func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
         let plant:NSDictionary = plants[indexPath.row] as! NSDictionary
         
         selectedPlantId = plant["id"] as! Int
